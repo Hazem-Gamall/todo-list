@@ -27,10 +27,14 @@ public class ToDoList {
     }
     
     public void edit(int index, Entry entry){
-        entries.set(index, entry);
+        entries.set(index-1, entry);
     }
     public void delete(int index){
-        entries.remove(index);
+        entries.remove(index-1);
+    }
+    
+    public Entry getEntry(int index){
+        return entries.get(index-1);
     }
     
     public List<Entry> getEntries(){
