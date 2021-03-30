@@ -22,22 +22,25 @@ public class ToDoList {
         entries = new ArrayList<Entry>();
     }
     
-    public void add(Entry entry){
-        entries.add(entry);
+    public void add(EntrySpec spec){
+        entries.add(new Entry(spec));
     }
     
-    public void edit(int index, Entry entry){
-        entries.set(index-1, entry);
+    public void edit(int index, EntrySpec spec){
+        entries.set(index-1, new Entry(spec));
     }
     public void delete(int index){
         entries.remove(index-1);
     }
     
-    public Entry getEntry(int index){
-        return entries.get(index-1);
-    }
-    
     public List<Entry> getEntries(){
         return entries;
+    }
+    
+    public void display(){
+        for(int i = 0; i < entries.size(); i++){
+            System.out.print(i+1 + "-");
+            System.out.println(entries.get(i).getSpec());
+        }
     }
 }

@@ -15,39 +15,14 @@ import java.util.Map;
  * @author hazem
  */
 public class Entry {
-    private Map<String, Object> properties;
+    private EntrySpec spec;
     
-    public Entry(Map<String, Object> properties){
-        if(properties == null){
-            this.properties = new LinkedHashMap<>();
-        }else{
-            this.properties = new LinkedHashMap<>(properties);
-        }
-        
+    public Entry(EntrySpec spec){
+        this.spec = spec;
     }
 
-    public Object getProperty(String propertyName){
-        return properties.get(propertyName);
-    }
-    
-    public void setProperty(String propertyName, Object obj){
-        properties.put(propertyName, obj);
-    }
-    
-    public Map<String, Object> getProperties(){
-        return properties;        
-    }
-    
-    @Override
-    public String toString(){
-        String result = "";
-        for(Object i : properties.keySet()){
-            String propertyName = (String)i;
-            if(propertyName.equals("type"))  continue;
-            result += properties.get(propertyName);
-            result += " ";
-        }
-        return result;
+    public EntrySpec getSpec(){
+        return spec;
     }
     
 }
