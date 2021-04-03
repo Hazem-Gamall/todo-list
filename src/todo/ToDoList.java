@@ -35,6 +35,10 @@ public class ToDoList {
         entries.remove(index-1);
     }
     
+    public Entry get(int index){
+        return entries.get(index-1);
+    }
+    
     public List<Entry> getEntries(){
         return entries;
     }

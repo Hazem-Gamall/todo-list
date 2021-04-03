@@ -53,34 +53,50 @@ public class ToDo {
             
             switch(sc.next()){
                 case "c":
-                    System.out.print("title:");
+                    System.out.print("Title:");
                     String title = sc.next();
                     list.add(new EntrySpec(title));
                     System.out.println("");
                     break;
                 case "cd":
-                    System.out.print("title:");
+                    System.out.print("Title:");
                     title = sc.next();
-                    System.out.print("\ndate:");
+                    System.out.print("\nDate:");
                     String date = sc.next();
                     list.add(new DateEntrySpec(title, date));
                     break;
                 case "ct":
-                    System.out.print("title:");
+                    System.out.print("Title:");
                     title = sc.next();
-                    System.out.print("\ndate:");
+                    System.out.print("\nDate:");
                     date = sc.next();
-                    System.out.print("time:");
+                    System.out.print("Time:");
                     String time = sc.next();
                     list.add(new TimeEntrySpec(title, date, time));
                     break;
                     
                 case "e":
-                    System.out.print("index:");
+                    System.out.print("Index:");
                     int index = sc.nextInt();
-                    System.out.print("\ntitle:");
+                    System.out.print("\nTitle:");
                     title = sc.next();
-                    list.edit(index, new EntrySpec(title));
+                    EntrySpec spec = list.get(index).getSpec();
+                    if(spec instanceof DateEntrySpec){
+                        System.out.println("\nDate:");
+                        date = sc.next();
+                        list.edit(index, new DateEntrySpec(title, date));
+
+                    }else if(spec instanceof TimeEntrySpec){
+                        System.out.print("\nDate:");
+                        date = sc.next();
+                        System.out.print("\nTime:");
+                        time = sc.next();
+                        list.edit(index, new TimeEntrySpec(title, date, time));
+
+                    }else{
+                        list.edit(index, new EntrySpec(title));
+                    }
+
                     break;
                 default:
                     System.out.println("Unrecognized command try again.");
