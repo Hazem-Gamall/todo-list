@@ -29,20 +29,20 @@ public class Reminder {
             for(Entry i : list.getEntries()){
                 if(i.getSpec() instanceof Remindable){
                     Remindable entrySpec = (Remindable)i.getSpec();
-                    if(entrySpec.check(LocalDateTime.now())){
+                    if(entrySpec.check(LocalDateTime.now()) && !entrySpec.isCalled()){
+                        entrySpec.call();
                         alarm(i.getSpec().getTitle());
-                        Thread.sleep(60000);
                     }
                 }
             }
         }
-    }, 0, 500);
+    }, 0, 1000);
         
     }
     
     public void alarm(String title){
         try{
-        Runtime.getRuntime().exec("notify-send -t 1000 " + title);
+        Runtime.getRuntime().exec("notify-send -t 1000 -u critical " + title);
         }catch(Exception e){}
     }
 }

@@ -3,4 +3,6 @@ test
 build.xml
 manifest.mf
 json-20210307.jar
+*.json
 /build/
+/dist/

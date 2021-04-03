@@ -7,6 +7,8 @@ package todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -42,5 +44,25 @@ public class ToDoList {
             System.out.print(i+1 + "-");
             System.out.println(entries.get(i).getSpec());
         }
+    }
+    public JSONObject getObject(){
+        JSONObject obj = new JSONObject();
+        JSONArray objArray = new JSONArray();
+        
+        for(Entry entry : entries){
+            
+            JSONObject tmpObj = new JSONObject();
+            EntrySpec spec = entry.getSpec();
+            tmpObj.put("title", spec.getTitle());
+            if(spec instanceof DateEntrySpec){
+                tmpObj.put("date", ((DateEntrySpec) spec).getDate());
+            }else if(spec instanceof TimeEntrySpec){
+                tmpObj.put("date", ((TimeEntrySpec) spec).getDate());
+                tmpObj.put("time", ((TimeEntrySpec) spec).getTime());
+            }
+            objArray.put(tmpObj);
+        }
+        obj.put("entries", objArray);
+        return obj;
     }
 }

@@ -5,9 +5,13 @@
  */
 package todo;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONObject;
 /**
  *
  * @author hazem
@@ -18,12 +22,20 @@ public class ToDo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("\t\tWelcome");
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+
+
+        System.out.println("\t\t\t\tWelcome");
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
         
-        ToDoList list = new ToDoList();        
-        list.add(new EntrySpec("Sayed"));
+        ToDoList list = new ToDoList(); 
+        try{
+            list = ListParser.getInstance().parse("test.json");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         
         Reminder reminder = new Reminder(list);
         reminder.runReminder();
@@ -60,7 +72,7 @@ public class ToDo {
                     date = sc.next();
                     System.out.print("time:");
                     String time = sc.next();
-                    list.add(new TimeEntrySpec(title, date + " " + time));
+                    list.add(new TimeEntrySpec(title, date, time));
                     break;
                     
                 case "e":
@@ -74,6 +86,11 @@ public class ToDo {
                     System.out.println("Unrecognized command try again.");
 
             }
+            try{
+            ListWriter.getInstance().write("test.json", list);
+            }catch(IOException e){
+            }
+            
         }
         
     }

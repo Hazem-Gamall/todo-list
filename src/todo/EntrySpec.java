@@ -5,15 +5,19 @@
  */
 package todo;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author hazem
  */
 public class EntrySpec {
     String title;
+    Type type;
     
     public EntrySpec(String title){
         this.title = title;
+        type = Type.NONE;
     }
     
     public String getTitle(){
@@ -23,5 +27,13 @@ public class EntrySpec {
     @Override
     public String toString(){
         return title;
+    }
+    
+    public JSONObject toObject(){
+        JSONObject obj = new JSONObject();
+        obj.put("title", title);
+        obj.put("type", type.ordinal());
+
+        return obj;
     }
 }
