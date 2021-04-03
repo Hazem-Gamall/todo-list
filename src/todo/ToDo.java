@@ -40,7 +40,7 @@ public class ToDo {
         Reminder reminder = new Reminder(list);
         reminder.runReminder();
         System.out.println("\nCreate(c)"
-                + "\tdate(cd)\tdateTime(ct)"
+                + "\tDate(cd)\tDateTime(ct)"
                 + "\tEdit(e)\t\t"
                 + "Delete(d)\n");
         

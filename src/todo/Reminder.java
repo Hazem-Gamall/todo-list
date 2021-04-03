@@ -42,7 +42,8 @@ public class Reminder {
     
     public void alarm(String title){
         try{
-        Runtime.getRuntime().exec("notify-send -t 1000 -u critical " + title);
+            Runtime.getRuntime().exec("notify-send -t 1000 -u critical " + title);
+            Runtime.getRuntime().exec("aplay " + "notification.wav");
         }catch(Exception e){}
     }
 }
