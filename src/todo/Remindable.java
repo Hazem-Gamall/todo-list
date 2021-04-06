@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
  */
 public interface Remindable {
     boolean check(LocalDateTime dt);
-    boolean isCalled();
-    void call();
+    boolean isDone();
+    void done();
 }

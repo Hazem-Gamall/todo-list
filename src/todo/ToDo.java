@@ -7,6 +7,7 @@ package todo;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class ToDo {
         
         ToDoList list = new ToDoList(); 
         try{
-            list = ListParser.getInstance().parse("test.json");
+            list = ListParser.getInstance().parse("data.json");
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -48,63 +49,80 @@ public class ToDo {
         boolean run = true;
         
         while(run){
-            
             list.display();
-            
-            switch(sc.next()){
-                case "c":
-                    System.out.print("Title:");
-                    String title = sc.next();
-                    list.add(new EntrySpec(title));
-                    System.out.println("");
-                    break;
-                case "cd":
-                    System.out.print("Title:");
-                    title = sc.next();
-                    System.out.print("\nDate:");
-                    String date = sc.next();
-                    list.add(new DateEntrySpec(title, date));
-                    break;
-                case "ct":
-                    System.out.print("Title:");
-                    title = sc.next();
-                    System.out.print("\nDate:");
-                    date = sc.next();
-                    System.out.print("Time:");
-                    String time = sc.next();
-                    list.add(new TimeEntrySpec(title, date, time));
-                    break;
-                    
-                case "e":
-                    System.out.print("Index:");
-                    int index = sc.nextInt();
-                    System.out.print("\nTitle:");
-                    title = sc.next();
-                    EntrySpec spec = list.get(index).getSpec();
-                    if(spec instanceof DateEntrySpec){
-                        System.out.println("\nDate:");
-                        date = sc.next();
-                        list.edit(index, new DateEntrySpec(title, date));
-
-                    }else if(spec instanceof TimeEntrySpec){
+            try{
+                switch(sc.next()){
+                    case "c":
+                        System.out.print("Title:");
+                        String title = sc.next();
+                        list.add(new EntrySpec(title));
+                        System.out.println("");
+                        break;
+                    case "cd":
+                        System.out.print("Title:");
+                        title = sc.next();
+                        System.out.print("\nDate:");
+                        String date = sc.next();
+                        list.add(new DateEntrySpec(title, date));
+                        break;
+                    case "ct":
+                        System.out.print("Title:");
+                        title = sc.next();
                         System.out.print("\nDate:");
                         date = sc.next();
-                        System.out.print("\nTime:");
-                        time = sc.next();
-                        list.edit(index, new TimeEntrySpec(title, date, time));
+                        System.out.print("Time:");
+                        String time = sc.next();
+                        list.add(new TimeEntrySpec(title, date, time));
+                        break;
 
-                    }else{
-                        list.edit(index, new EntrySpec(title));
-                    }
+                    case "e":
+                        System.out.print("Index:");
+                        int index = sc.nextInt();
+                        System.out.print("\nTitle:");
+                        title = sc.next();
+                        EntrySpec spec = list.get(index).getSpec();
+                        title = (("".equals(title) || " ".equals(title))?spec.getTitle() : title);
+                        if(spec instanceof DateEntrySpec){
+                            System.out.print("\nDate:");
+                            date = sc.next();
+                            date = (("".equals(date) || " ".equals(date))?((DateEntrySpec)spec).getDate() : date);
+                            list.edit(index, new DateEntrySpec(title, date));
 
-                    break;
-                default:
-                    System.out.println("Unrecognized command try again.");
+                        }else if(spec instanceof TimeEntrySpec){
+                            System.out.print("\nDate:");
+                            date = sc.next();
+                            date = (("".equals(date) || " ".equals(date))?((TimeEntrySpec)spec).getDate() : date);
+                            System.out.print("\nTime:");
+                            time = sc.next();
+                            time = (("".equals(time) || " ".equals(time))?((TimeEntrySpec)spec).getTime(): time);
+                            list.edit(index, new TimeEntrySpec(title, date, time));
 
+                        }else{
+                            list.edit(index, new EntrySpec(title));
+                        }
+
+                        break;
+
+                    case "d":
+                        System.out.print("Index:");
+                        index = sc.nextInt();
+                        list.delete(index);
+                        break;
+                    default:
+                        System.out.println("Unrecognized command try again.");
+  
+                }
+                ListWriter.getInstance().write("data.json", list);
             }
-            try{
-            ListWriter.getInstance().write("test.json", list);
-            }catch(IOException e){
+            catch(InputMismatchException e){
+                System.out.println("Error: Bad Input");
+                sc.next();
+            }
+            catch(IOException e){
+                System.out.println("Error: " + e.getMessage());
+            }
+            catch(Exception e){
+                System.out.println("Error: " + e.getMessage());
             }
             
         }

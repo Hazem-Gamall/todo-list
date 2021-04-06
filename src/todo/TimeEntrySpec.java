@@ -42,12 +42,12 @@ public class TimeEntrySpec extends EntrySpec implements Remindable{
     }
     
     @Override 
-    public void call(){
+    public void done(){
         called = true;
     }
     
     @Override 
-    public boolean isCalled(){
+    public boolean isDone(){
         return called;
     }
     

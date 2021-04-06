@@ -18,8 +18,24 @@ import org.json.JSONArray;
  */
 public class ListParser {
     private static ListParser parser;
+    private ListParser(){}
     
     public ToDoList parse(String fileName) throws FileNotFoundException, IOException{
+              
+        ToDoList list = new ToDoList();
+        
+        JSONObject object = readObject(fileName);
+        
+        JSONArray entries = (JSONArray)object.get("entries");
+
+        for(Object i : entries){
+            list.add(toEntrySpec((JSONObject)i));
+        }
+        return list;
+    }
+    
+    private JSONObject readObject(String fileName) throws FileNotFoundException, IOException{
+        
         File file = new File(fileName);
         if(Files.notExists(Paths.get(fileName))){
             file.createNewFile();
@@ -30,14 +46,8 @@ public class ListParser {
         
         JSONObject object = new JSONObject(scanner.next());
         
-        JSONArray entries = (JSONArray)object.get("entries");
+        return object;
         
-        ToDoList list = new ToDoList();
-        
-        for(Object i : entries){
-            list.add(toEntrySpec((JSONObject)i));
-        }
-        return list;
     }
     
     private EntrySpec toEntrySpec(JSONObject obj){
