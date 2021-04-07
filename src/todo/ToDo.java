@@ -23,11 +23,7 @@ public class ToDo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.print("\033[H\033[2J");  
-        System.out.flush();  
-
-
-        System.out.println("\t\t\t\tWelcome");
+       
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
         
@@ -40,15 +36,22 @@ public class ToDo {
         
         Reminder reminder = new Reminder(list);
         reminder.runReminder();
-        System.out.println("\nCreate(c)"
-                + "\tDate(cd)\tDateTime(ct)"
-                + "\tEdit(e)\t\t"
-                + "Delete(d)\n");
         
         
         boolean run = true;
         
         while(run){
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+
+
+        System.out.println("\nCreate(c)"
+                + "\tDate(cd)\tDateTime(ct)"
+                + "\tEdit(e)\t\t"
+                + "Delete(d)\t"
+                + "Quit(q)\n");
+        
+            
             list.display();
             try{
                 switch(sc.next()){
@@ -107,6 +110,11 @@ public class ToDo {
                         System.out.print("Index:");
                         index = sc.nextInt();
                         list.delete(index);
+                        break;
+                        
+                    case "q":
+                        run = false;
+                        reminder.cancel();
                         break;
                     default:
                         System.out.println("Unrecognized command try again.");

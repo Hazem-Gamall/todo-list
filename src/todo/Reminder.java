@@ -52,6 +52,9 @@ public class Reminder {
         
     }
     
+    public void cancel(){
+        timer.cancel();
+    }
     
     public void alert(String title, long rate){
         try{
