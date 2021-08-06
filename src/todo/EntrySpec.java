@@ -12,8 +12,8 @@ import org.json.JSONObject;
  * @author hazem
  */
 public class EntrySpec {
-    String title;
-    Type type;
+    private String title;
+    protected Type type;
     
     public EntrySpec(String title){
         this.title = title;

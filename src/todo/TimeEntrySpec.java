@@ -15,15 +15,14 @@ import org.json.JSONObject;
  */
 public class TimeEntrySpec extends EntrySpec implements Remindable{
     private LocalDateTime dateTime;
-    private DateTimeFormatter format;
-    private Type type;
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("d/M/yyyy H:m");
+    private final Type type = Type.DATETIME;
     private boolean called;
     
     public TimeEntrySpec(String title, String date, String time){
         super(title);
-        type = Type.DATETIME;
         called = false;
-        format = DateTimeFormatter.ofPattern("d/M/yyyy H:m");
+        
         dateTime = LocalDateTime.parse(date + " " + time, format);
     }
     
